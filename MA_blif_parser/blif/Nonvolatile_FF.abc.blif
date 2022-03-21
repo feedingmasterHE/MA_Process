@@ -1,0 +1,43 @@
+# Benchmark "nonvolatile_ff" written by ABC on Wed Mar 2 17:13:05 2022 
+
+
+.model nonvolatile_ff 
+
+
+.inputs nonvolatile_ff^clk nonvolatile_ff^rst nonvolatile_ff^d nonvolatile_ff^read_mtj nonvolatile_ff^write_mtj 
+
+
+.outputs nonvolatile_ff^q 
+
+
+
+.latch n13 nonvolatile_ff^store_MTJ_FF re nonvolatile_ff^clk 0 
+
+
+.latch n18 nonvolatile_ff^q_FF re nonvolatile_ff^clk 0 
+
+
+
+
+
+
+.names nonvolatile_ff^store_MTJ_FF nonvolatile_ff^d nonvolatile_ff^write_mtj nonvolatile_ff^rst n13 
+-111 1 
+1-01 1 
+
+
+.names nonvolatile_ff^store_MTJ_FF nonvolatile_ff^d nonvolatile_ff^read_mtj nonvolatile_ff^rst n18 
+-101 1 
+1-11 1 
+
+
+.names nonvolatile_ff^q_FF nonvolatile_ff^q 
+1 1 
+
+
+
+.end 
+
+
+
+
