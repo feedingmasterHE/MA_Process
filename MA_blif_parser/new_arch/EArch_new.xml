@@ -87,6 +87,18 @@
        that describe them.
   -->
   <models>
+    <model name="nonvolatile_ff">
+      <input_ports>
+        <port name="nonvolatile_ff^clk" is_clock="1"/>
+        <port name="nonvolatile_ff^rst" clock="nonvolatile_ff^clk"/>
+        <port name="nonvolatile_ff^d" clock="nonvolatile_ff^clk"/>
+        <port name="nonvolatile_ff^read_mtj" clock="nonvolatile_ff^clk"/>
+        <port name="nonvolatile_ff^write_mtj" clock="nonvolatile_ff^clk"/>
+      </input_ports>
+      <output_ports>
+        <port name="nonvolatile_ff^q" clock="nonvolatile_ff^clk"/>
+      </output_ports>
+    </model>
     <model name="multiply">
       <input_ports>
         <port name="a" combinational_sink_ports="out"/>
@@ -121,11 +133,10 @@
         <port name="addr1" clock="clk"/>
         <!-- address lines -->
         <port name="addr2" clock="clk"/>
-        <!-- address lines -->
         <port name="data1" clock="clk"/>
-        <!-- data lines can be broken down into smaller bit widths minimum size 1 -->
+        <!--  data lines can be broken down into smaller bit widths minimum size 1  -->
         <port name="data2" clock="clk"/>
-        <!-- data lines can be broken down into smaller bit widths minimum size 1 -->
+        <!--  data lines can be broken down into smaller bit widths minimum size 1  -->
         <port name="clk" is_clock="1"/>
         <!-- memories are often clocked -->
       </input_ports>
@@ -149,6 +160,21 @@
     </model>
   </models>
   <tiles>
+    <tile name="nonvolatile" area="1">
+      <sub_tile name="nonvolatile" capacity="5">
+        <equivalent_sites>
+          <site pb_type="nonvolatile" pin_mapping="direct"/>
+        </equivalent_sites>
+        <input name="nonvolatile^rst" num_pins="1" />
+        <input name="nonvolatile^d" num_pins="1"/>
+        <input name="nonvolatile^read_mtj" num_pins="1"/>
+        <input name="nonvolatile^write_mtj" num_pins="1"/>
+        <clock name="nonvolatile^clk" num_pins="1"/>
+        <output name="nonvolatile^q" num_pins="1"/>
+        <fc in_type="frac" in_val="0.1" out_type="frac" out_val="0.1"/>
+        <pinlocations pattern="spread"/>
+      </sub_tile>
+    </tile>
     <tile name="io" area="0">
       <sub_tile name="io" capacity="8">
         <equivalent_sites>
@@ -178,7 +204,7 @@
         <input name="cin" num_pins="1"/>
         <output name="O" num_pins="20" equivalent="none"/>
         <output name="cout" num_pins="1"/>
-        <clock name="clk" num_pins="1"/>
+        <clock name="clk" num_pins="1"/>clock="nonvolatile_ff^clk"
         <fc in_type="frac" in_val="0.15" out_type="frac" out_val="0.10">
           <fc_override port_name="cin" fc_type="frac" fc_val="0"/>
           <fc_override port_name="cout" fc_type="frac" fc_val="0"/>
@@ -224,6 +250,9 @@
       <corners type="EMPTY" priority="101"/>
       <!--Fill with 'clb'-->
       <fill type="clb" priority="10"/>
+      <!--Column of 'nonvolatile_ff' with 'EMPTY' blocks wherever a 'nonvolatile_ff' does not fit. Vertical offset by 1 for perimeter.-->
+      <col type="nonvolatile" startx="4" starty="1" priority="20"/>
+      <col type="EMPTY" startx="4" starty="1" priority="19"/>
       <!--Column of 'mult_36' with 'EMPTY' blocks wherever a 'mult_36' does not fit. Vertical offset by 1 for perimeter.-->
       <col type="mult_36" startx="6" starty="1" repeatx="8" priority="20"/>
       <col type="EMPTY" startx="6" repeatx="8" starty="1" priority="19"/>
@@ -292,6 +321,40 @@
     <direct name="adder_carry" from_pin="clb.cout" to_pin="clb.cin" x_offset="0" y_offset="-1" z_offset="0"/>
   </directlist>
   <complexblocklist>
+    <!-- Define nonvolatile_FF begin-->
+    <pb_type name="nonvolatile">
+      <input name="nonvolatile^rst" num_pins="1" />
+      <input name="nonvolatile^d" num_pins="1"/>
+      <input name="nonvolatile^read_mtj" num_pins="1"/>
+      <input name="nonvolatile^write_mtj" num_pins="1"/>
+      <clock name="nonvolatile^clk" num_pins="1"/>
+      <output name="nonvolatile^q" num_pins="1"/>
+      <mode name="non1">
+        <pb_type name="nonvolatile_ff" blif_model=".subckt nonvolatile_ff" num_pb="1">
+          <input name="nonvolatile_ff^rst" num_pins="1"/>
+          <input name="nonvolatile_ff^d" num_pins="1"/>
+          <input name="nonvolatile_ff^read_mtj" num_pins="1"/>
+          <input name="nonvolatile_ff^write_mtj" num_pins="1"/>
+          <clock name="nonvolatile_ff^clk" num_pins="1"/>
+          <output name="nonvolatile_ff^q" num_pins="1"/>
+          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^d" clock="nonvolatile_ff^clk"/>
+          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^read_mtj" clock="nonvolatile_ff^clk"/>
+          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^write_mtj" clock="nonvolatile_ff^clk"/>
+          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^rst" clock="nonvolatile_ff^clk"/>
+          <T_clock_to_Q max="124e-12" port="nonvolatile_ff.nonvolatile_ff^q" clock="nonvolatile_ff^clk"/>
+          <!-- <delay_constant max="0.3e-9" in_port="nonvolatile_ff^d" out_port="nonvolatile_ff^q"/> -->
+        </pb_type>
+        <interconnect>
+          <direct name="clock" input="nonvolatile.nonvolatile^clk" output="nonvolatile_ff.nonvolatile_ff^clk"/>
+          <direct name="reset" input="nonvolatile.nonvolatile^rst" output="nonvolatile_ff.nonvolatile_ff^rst"/>
+          <direct name="d" input="nonvolatile.nonvolatile^d" output="nonvolatile_ff.nonvolatile_ff^d"/>
+          <direct name="read" input="nonvolatile.nonvolatile^read_mtj" output="nonvolatile_ff.nonvolatile_ff^read_mtj"/>
+          <direct name="write" input="nonvolatile.nonvolatile^write_mtj" output="nonvolatile_ff.nonvolatile_ff^write_mtj"/>
+          <direct name="q" input="nonvolatile_ff.nonvolatile_ff^q" output="nonvolatile.nonvolatile^q"/>
+        </interconnect>
+      </mode>
+    </pb_type>
+    <!-- Define nonvolatile_FF ends-->
     <!-- Define I/O pads begin -->
     <!-- Capacity is a unique property of I/Os, it is the maximum number of I/Os that can be placed at the same (X,Y) location on the FPGA -->
     <!-- Not sure of the area of an I/O (varies widely), and it's not relevant to the design of the FPGA core, so we're setting it to 0. -->
@@ -716,7 +779,7 @@
           <output name="out" num_pins="36"/>
           <!-- Model 9x9 delay and 18x18 delay as the same.  9x9 could be faster, but in Stratix IV
 	          isn't, presumably because the multiplier layout is really optimized for 18x18.
-		-->
+		 -->
           <mode name="two_mult_9x9">
             <pb_type name="mult_9x9_slice" num_pb="2">
               <input name="A_cfg" num_pins="9"/>

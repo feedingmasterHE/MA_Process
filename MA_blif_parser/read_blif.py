@@ -2,7 +2,7 @@
 Author: your Name
 Date: 2022-03-16 10:49:50
 LastEditors: your Name
-LastEditTime: 2022-03-20 20:05:11
+LastEditTime: 2022-03-22 15:59:24
 Description: 
 '''
 
@@ -12,6 +12,8 @@ import blifparser_new.keywords as keywords
 
 
 def replace_latch_nonvolatile(source, nonvolatile):
+
+    add_inputs(source)
     for latch in source.latches:
        
         nonvolatile_params = nonvolatile.model.name + " "
@@ -48,6 +50,7 @@ def replace_latch_nonvolatile(source, nonvolatile):
         source.subcircuits.append(keywords.subfiles.Subckt(nonvolatile_params))
     
     source.latches.clear()
+    add_submodel(source,nonvolatile)
     
 def add_submodel(source, added_source):
     new_submodel = keywords.subfiles.Submodel()
@@ -63,6 +66,11 @@ def add_submodel(source, added_source):
     new_submodel.blackbox = '.blackbox'
     source.submodel.append(new_submodel)
     
+def add_inputs(source):
+    read_input = str(source.model.name) + "^read_mtj"
+    source.inputs.inputs.append(read_input)
+    write_input = str(source.model.name) +"^write_mtj"
+    source.inputs.inputs.append(write_input)
 
 
 if __name__ == "__main__":
@@ -80,14 +88,13 @@ if __name__ == "__main__":
     
 
     replace_latch_nonvolatile(blif1,blif2)
-    add_submodel(blif1,blif2)
+    
     
     print(blif1)
     print(blif1.inputs.inputs)
     print(blif1)
-    with open('blif/output.blif','wt') as f1:
+    with open('blif/blink.output.blif','wt') as f1:
         print(blif1,file=f1)
         
-    with open('blif/stereo.test.blif','wt')as f2:
-        print(blif3,file=f2)
+    
     
