@@ -2,7 +2,7 @@
 module blink(
     input clk,      //Input clock
     input i_reset,  //Input active-high reset
-    output o_led);  //Output to LED
+    output reg o_led);  //Output to LED
 
     //Sequential logic
     //
