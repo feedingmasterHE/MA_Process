@@ -77,24 +77,29 @@ if __name__ == "__main__":
     filepath1 = os.path.abspath("blif/Nonvolatile_FF.abc.blif")
     filepath2 = os.path.abspath("blif/blink.abc.1.blif")
     filepath3 = os.path.abspath("blif/0_stereovision0.abc.blif")
+    filepath4 = os.path.abspath("blif/fft.clk.blif")
     source_file = blifparser.BlifParser(filepath2)
     nonvolatile = blifparser.BlifParser(filepath1)
     stereo = blifparser.BlifParser(filepath3)
+    fft = blifparser.BlifParser(filepath4)
     blif1 = source_file.blif
     blif2 = nonvolatile.blif
     blif3 = stereo.blif
+    blif4 = fft.blif
    
         
     
 
     replace_latch_nonvolatile(blif1,blif2)
-    
+    replace_latch_nonvolatile(blif4,blif2)
     
     print(blif1)
     print(blif1.inputs.inputs)
     print(blif1)
     with open('blif/blink.output.blif','wt') as f1:
         print(blif1,file=f1)
+    with open('blif/fft.output.blif','wt') as f2:
+        print(blif4,file=f2)
         
     
     
