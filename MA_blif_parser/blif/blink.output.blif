@@ -13,7 +13,8 @@
 .subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^rst=blink^i_reset nonvolatile_ff^d=blink^nMUX~0^MUX_2~27 nonvolatile_ff^read_mtj=0 nonvolatile_ff^write_mtj=0 nonvolatile_ff^q=blink^r_counter~4_FF
 .subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^rst=blink^i_reset nonvolatile_ff^d=blink^nMUX~0^MUX_2~26 nonvolatile_ff^read_mtj=0 nonvolatile_ff^write_mtj=0 nonvolatile_ff^q=blink^r_counter~3_FF
 .subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^rst=blink^i_reset nonvolatile_ff^d=blink^nMUX~0^MUX_2~25 nonvolatile_ff^read_mtj=0 nonvolatile_ff^write_mtj=0 nonvolatile_ff^q=blink^r_counter~2_FF
-.latch n39 blink^r_counter~1_FF re blink^clk 0 
+.latch n39 blink^r_counter~1_FF re blink^clk 0
+ 
 .names blink^i_reset blink^ADD~2-1[1] n19
 01 1
 
