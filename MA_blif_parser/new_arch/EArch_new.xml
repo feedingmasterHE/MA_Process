@@ -161,7 +161,7 @@
   </models>
   <tiles>
     <tile name="nonvolatile" area="1">
-      <sub_tile name="nonvolatile" capacity="10">
+      <sub_tile name="nonvolatile" capacity="1">
         <equivalent_sites>
           <site pb_type="nonvolatile" pin_mapping="direct"/>
         </equivalent_sites>

@@ -90,10 +90,7 @@
     <model name="nonvolatile_ff">
       <input_ports>
         <port name="nonvolatile_ff^clk" is_clock="1"/>
-        <port name="nonvolatile_ff^rst" clock="nonvolatile_ff^clk"/>
         <port name="nonvolatile_ff^d" clock="nonvolatile_ff^clk"/>
-        <port name="nonvolatile_ff^read_mtj" clock="nonvolatile_ff^clk"/>
-        <port name="nonvolatile_ff^write_mtj" clock="nonvolatile_ff^clk"/>
       </input_ports>
       <output_ports>
         <port name="nonvolatile_ff^q" clock="nonvolatile_ff^clk"/>
@@ -133,10 +130,11 @@
         <port name="addr1" clock="clk"/>
         <!-- address lines -->
         <port name="addr2" clock="clk"/>
+        <!-- address lines -->
         <port name="data1" clock="clk"/>
-        <!--  data lines can be broken down into smaller bit widths minimum size 1  -->
+        <!-- data lines can be broken down into smaller bit widths minimum size 1 -->
         <port name="data2" clock="clk"/>
-        <!--  data lines can be broken down into smaller bit widths minimum size 1  -->
+        <!-- data lines can be broken down into smaller bit widths minimum size 1 -->
         <port name="clk" is_clock="1"/>
         <!-- memories are often clocked -->
       </input_ports>
@@ -160,21 +158,6 @@
     </model>
   </models>
   <tiles>
-    <!-- <tile name="nonvolatile" area="38">
-      <sub_tile name="nonvolatile">
-        <equivalent_sites>
-          <site pb_type="nonvolatile" pin_mapping="direct"/>
-        </equivalent_sites>
-        <input name="nonvolatile^rst" num_pins="1" />
-        <input name="nonvolatile^d" num_pins="1"/>
-        <input name="nonvolatile^read_mtj" num_pins="1"/>
-        <input name="nonvolatile^write_mtj" num_pins="1"/>
-        <clock name="nonvolatile^clk" num_pins="1"/>
-        <output name="nonvolatile^q" num_pins="1"/>
-        <fc in_type="frac" in_val="0.15" out_type="frac" out_val="0.1"/>
-        <pinlocations pattern="spread"/>
-      </sub_tile>
-    </tile> -->
     <tile name="io" area="0">
       <sub_tile name="io" capacity="8">
         <equivalent_sites>
@@ -202,9 +185,6 @@
         <input name="I3" num_pins="13" equivalent="full"/>
         <input name="I4" num_pins="13" equivalent="full"/>
         <input name="cin" num_pins="1"/>
-        <input name="rst" num_pins="1"/>
-        <input name="read" num_pins="1"/>
-        <input name="write" num_pins="1"/>
         <output name="O" num_pins="20" equivalent="none"/>
         <output name="cout" num_pins="1"/>
         <clock name="clk" num_pins="1"/>
@@ -253,9 +233,6 @@
       <corners type="EMPTY" priority="101"/>
       <!--Fill with 'clb'-->
       <fill type="clb" priority="10"/>
-      <!--Column of 'nonvolatile_ff' with 'EMPTY' blocks wherever a 'nonvolatile_ff' does not fit. Vertical offset by 1 for perimeter.-->
-      
-      <col type="EMPTY" startx="4" starty="1" priority="19"/>
       <!--Column of 'mult_36' with 'EMPTY' blocks wherever a 'mult_36' does not fit. Vertical offset by 1 for perimeter.-->
       <col type="mult_36" startx="6" starty="1" repeatx="8" priority="20"/>
       <col type="EMPTY" startx="6" repeatx="8" starty="1" priority="19"/>
@@ -380,10 +357,6 @@
       <input name="I2" num_pins="13" equivalent="full"/>
       <input name="I3" num_pins="13" equivalent="full"/>
       <input name="I4" num_pins="13" equivalent="full"/>
-      <!-- signals for nonvolatile ff -->
-      <input name="rst" num_pins="1"/>
-      <input name="read" num_pins="1"/>
-      <input name="write" num_pins="1"/>
       <input name="cin" num_pins="1"/>
       <output name="O" num_pins="20" equivalent="none"/>
       <output name="cout" num_pins="1"/>
@@ -395,10 +368,6 @@
       <pb_type name="fle" num_pb="10">
         <input name="in" num_pins="8"/>
         <input name="cin" num_pins="1"/>
-        <!-- signals for nonvolatile ff -->
-        <input name="rst" num_pins="1"/>
-        <input name="read" num_pins="1"/>
-        <input name="write" num_pins="1"/>
         <output name="out" num_pins="2"/>
         <output name="cout" num_pins="1"/>
         <clock name="clk" num_pins="1"/>
@@ -406,30 +375,18 @@
           <pb_type name="lut5inter" num_pb="1">
             <input name="in" num_pins="8"/>
             <input name="cin" num_pins="1"/>
-            <!-- signals for nonvolatile ff -->
-            <input name="rst" num_pins="1"/>
-            <input name="read" num_pins="1"/>
-            <input name="write" num_pins="1"/>
             <output name="out" num_pins="2"/>
             <output name="cout" num_pins="1"/>
             <clock name="clk" num_pins="1"/>
             <pb_type name="ble5" num_pb="2">
               <input name="in" num_pins="5"/>
               <input name="cin" num_pins="1"/>
-              <!-- signals for nonvolatile ff -->
-              <input name="rst" num_pins="1"/>
-              <input name="read" num_pins="1"/>
-              <input name="write" num_pins="1"/>
               <output name="out" num_pins="1"/>
               <output name="cout" num_pins="1"/>
               <clock name="clk" num_pins="1"/>
               <mode name="blut5">
                 <pb_type name="flut5" num_pb="1">
                   <input name="in" num_pins="5"/>
-                  <!-- signals for nonvolatile ff -->
-                  <input name="rst" num_pins="1"/>
-                  <input name="read" num_pins="1"/>
-                  <input name="write" num_pins="1"/>
                   <output name="out" num_pins="1"/>
                   <clock name="clk" num_pins="1"/>
                   <!-- Regular LUT mode -->
@@ -453,84 +410,89 @@
                         235e-12
                       </delay_matrix>
                   </pb_type>
-                  <pb_type name="flipflop" num_pb="1">
-                    <input name="in" num_pins="1"/>
-                    <!-- signals for nonvolatile ff -->
-                    <input name="rst" num_pins="1"/>
-                    <input name="read" num_pins="1"/>
-                    <input name="write" num_pins="1"/>
-                    <output name="out" num_pins="1"/>
-                    <clock name="clk" num_pins="1"/>
-                      <mode name="latch">
-                        <pb_type name="ff" blif_model=".latch" num_pb="1" class="flipflop">
-                          <input name="D" num_pins="1" port_class="D"/>
-                          <output name="Q" num_pins="1" port_class="Q"/>
-                          <clock name="clk" num_pins="1" port_class="clock"/>
-                          <T_setup value="66e-12" port="ff.D" clock="clk"/>
-                          <T_clock_to_Q max="124e-12" port="ff.Q" clock="clk"/>
-                        </pb_type>
-                        <interconnect>
-                          <direct name="direct1" input="flipflop.in" output="ff.D"/>
-                          <direct name="direct2" input="ff.Q" output="flipflop.out"/>
-                          <direct name="direct3" input="flipflop.clk" output="ff.clk"/>
-                        </interconnect>
-                      </mode>
-                      <mode name="nonvolatile">
-                        <pb_type name="nonvolatile_ff" blif_model=".subckt nonvolatile_ff" num_pb="1">
-                          <input name="nonvolatile_ff^rst" num_pins="1"/>
-                          <input name="nonvolatile_ff^d" num_pins="1"/>
-                          <input name="nonvolatile_ff^read_mtj" num_pins="1"/>
-                          <input name="nonvolatile_ff^write_mtj" num_pins="1"/>
-                          <clock name="nonvolatile_ff^clk" num_pins="1"/>
-                          <output name="nonvolatile_ff^q" num_pins="1"/>
-                          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^d" clock="nonvolatile_ff^clk"/>
-                          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^read_mtj" clock="nonvolatile_ff^clk"/>
-                          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^write_mtj" clock="nonvolatile_ff^clk"/>
-                          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^rst" clock="nonvolatile_ff^clk"/>
-                          <T_clock_to_Q max="124e-12" port="nonvolatile_ff.nonvolatile_ff^q" clock="nonvolatile_ff^clk"/>
-                          <!-- <delay_constant max="0.3e-9" in_port="nonvolatile_ff^d" out_port="nonvolatile_ff^q"/> -->
-                        </pb_type>
-                        <interconnect>
-                          <direct name="clock" input="flipflop.clk" output="nonvolatile_ff.nonvolatile_ff^clk"/>
-                          <direct name="reset" input="flipflop.rst" output="nonvolatile_ff.nonvolatile_ff^rst"/>
-                          <direct name="d" input="flipflop.in" output="nonvolatile_ff.nonvolatile_ff^d"/>
-                          <direct name="read" input="flipflop.read" output="nonvolatile_ff.nonvolatile_ff^read_mtj"/>
-                          <direct name="write" input="flipflop.write" output="nonvolatile_ff.nonvolatile_ff^write_mtj"/>
-                          <direct name="q" input="nonvolatile_ff.nonvolatile_ff^q" output="flipflop.out"/>
-                        </interconnect>
-                      </mode>
+                  
+                  <pb_type name="ff" blif_model=".latch" num_pb="1" class="flipflop">
+                    <input name="D" num_pins="1" port_class="D"/>
+                    <output name="Q" num_pins="1" port_class="Q"/>
+                    <clock name="clk" num_pins="1" port_class="clock"/>
+                    <T_setup value="66e-12" port="ff.D" clock="clk"/>
+                    <T_clock_to_Q max="124e-12" port="ff.Q" clock="clk"/>
                   </pb_type>
                   <interconnect>
                     <direct name="direct1" input="flut5.in" output="lut5.in"/>
-                    <direct name="direct2" input="lut5.out" output="flipflop.in">
-                      <pack_pattern name="ble5" in_port="lut5.out" out_port="flipflop.in"/>
+                    <direct name="direct2" input="lut5.out" output="ff.D">
+                      <pack_pattern name="ble5" in_port="lut5.out" out_port="ff.D"/>
                     </direct>
-                    <direct name="direct3" input="flut5.clk" output="flipflop.clk"/>
-                    <mux name="mux1" input="flipflop.out lut5.out" output="flut5.out">
+                    <direct name="direct3" input="flut5.clk" output="ff.clk"/>
+                    <mux name="mux1" input="ff.Q lut5.out" output="flut5.out">
                       <delay_constant max="25e-12" in_port="lut5.out" out_port="flut5.out"/>
-                      <delay_constant max="45e-12" in_port="flipflop.out" out_port="flut5.out"/>
+                      <delay_constant max="45e-12" in_port="ff.Q" out_port="flut5.out"/>
                     </mux>
-                    <direct name="rst" input="flut5.rst" output="flipflop.rst"/>
-                    <direct name="read" input="flut5.read" output="flipflop.read"/>
-                    <direct name="write" input="flut5.write" output="flipflop.write"/>
                   </interconnect>
                 </pb_type>
                 <interconnect>
                   <direct name="direct1" input="ble5.in" output="flut5.in"/>
                   <direct name="direct2" input="ble5.clk" output="flut5.clk"/>
                   <direct name="direct3" input="flut5.out" output="ble5.out"/>
-                  <direct name="direct4" input="ble5.rst" output="flut5.rst"/>
-                  <direct name="direct5" input="ble5.read" output="flut5.read"/>
-                  <direct name="direct6" input="ble5.write" output="flut5.write"/>
                 </interconnect>
               </mode>
-              <mode name="arithmetic">
+              <mode name="hlut5">
+                <pb_type name="hflut5" num_pb="1">
+                  <input name="in" num_pins="5"/>
+                  <output name="out" num_pins="1"/>
+                  <clock name="clk" num_pins="1"/>
+                  <!-- Regular LUT mode -->
+                  <pb_type name="hlut5" blif_model=".names" num_pb="1" class="lut">
+                    <input name="in" num_pins="5" port_class="lut_in"/>
+                    <output name="out" num_pins="1" port_class="lut_out"/>
+                    <!-- LUT timing using delay matrix -->
+                    <!-- These are the physical delay inputs on a Stratix IV LUT but because VPR cannot do LUT rebalancing,
+                           we instead take the average of these numbers to get more stable results
+                        82e-12
+                        173e-12
+                        261e-12
+                        263e-12
+                        398e-12
+                        -->
+                    <delay_matrix type="max" in_port="hlut5.in" out_port="hlut5.out">
+                        235e-12
+                        235e-12
+                        235e-12
+                        235e-12
+                        235e-12
+                      </delay_matrix>
+                  </pb_type>
+                  
+                  <pb_type name="nonvolatile_ff" blif_model=".subckt nonvolatile_ff" num_pb="1">
+                    <input name="nonvolatile_ff^d" num_pins="1"/>
+                    <clock name="nonvolatile_ff^clk" num_pins="1"/>
+                    <output name="nonvolatile_ff^q" num_pins="1"/>
+                    <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^d" clock="nonvolatile_ff^clk"/>
+                    <T_clock_to_Q max="124e-12" port="nonvolatile_ff.nonvolatile_ff^q" clock="nonvolatile_ff^clk"/>
+                    <!-- <delay_constant max="0.3e-9" in_port="nonvolatile_ff^d" out_port="nonvolatile_ff^q"/> -->
+                  </pb_type>
+                  <interconnect>
+                    <direct name="direct1" input="hflut5.in" output="hlut5.in"/>
+                    <direct name="direct2" input="hlut5.out" output="nonvolatile_ff.nonvolatile_ff^d">
+                      <pack_pattern name="ble5" in_port="hlut5.out" out_port="nonvolatile_ff.nonvolatile_ff^d"/>
+                    </direct>
+                    <direct name="direct3" input="hflut5.clk" output="nonvolatile_ff.nonvolatile_ff^clk"/>
+                    <mux name="mux1" input="nonvolatile_ff.nonvolatile_ff^q hlut5.out" output="hflut5.out">
+                      <delay_constant max="25e-12" in_port="hlut5.out" out_port="hflut5.out"/>
+                      <delay_constant max="45e-12" in_port="nonvolatile_ff.nonvolatile_ff^q" out_port="hflut5.out"/>
+                    </mux>
+                  </interconnect>
+                </pb_type>
+                <interconnect>
+                  <direct name="direct1" input="ble5.in" output="hflut5.in"/>
+                  <direct name="direct2" input="ble5.clk" output="hflut5.clk"/>
+                  <direct name="direct3" input="hflut5.out" output="ble5.out"/>
+                </interconnect>
+              </mode>
+              <mode name="harithmetic">
                 <pb_type name="arithmetic" num_pb="1">
                   <input name="in" num_pins="4"/>
                   <input name="cin" num_pins="1"/>
-                  <input name="rst" num_pins="1"/>
-                  <input name="read" num_pins="1"/>
-                  <input name="write" num_pins="1"/>
                   <output name="out" num_pins="1"/>
                   <output name="cout" num_pins="1"/>
                   <clock name="clk" num_pins="1"/>
@@ -566,70 +528,105 @@
                     <delay_constant max="0.3e-9" in_port="adder.b" out_port="adder.cout"/>
                     <delay_constant max="0.01e-9" in_port="adder.cin" out_port="adder.cout"/>
                   </pb_type>
-                  <!-- <pb_type name="ff" blif_model=".latch" num_pb="1" class="flipflop">
-                    <input name="D" num_pins="1" port_class="D"/>
-                    <output name="Q" num_pins="1" port_class="Q"/>
-                    <clock name="clk" num_pins="1" port_class="clock"/>
-                    <T_setup value="66e-12" port="ff.D" clock="clk"/>
-                    <T_clock_to_Q max="124e-12" port="ff.Q" clock="clk"/>
-                  </pb_type> -->
-                  <pb_type name="flipflop" num_pb="1">
-                    <input name="in" num_pins="1"/>
-                    <!-- signals for nonvolatile ff -->
-                    <input name="rst" num_pins="1"/>
-                    <input name="read" num_pins="1"/>
-                    <input name="write" num_pins="1"/>
-                    <output name="out" num_pins="1"/>
-                    <clock name="clk" num_pins="1"/>
-                      <mode name="latch">
-                        <pb_type name="ff" blif_model=".latch" num_pb="1" class="flipflop">
-                          <input name="D" num_pins="1" port_class="D"/>
-                          <output name="Q" num_pins="1" port_class="Q"/>
-                          <clock name="clk" num_pins="1" port_class="clock"/>
-                          <T_setup value="66e-12" port="ff.D" clock="clk"/>
-                          <T_clock_to_Q max="124e-12" port="ff.Q" clock="clk"/>
-                        </pb_type>
-                        <interconnect>
-                          <direct name="direct1" input="flipflop.in" output="ff.D"/>
-                          <direct name="direct2" input="ff.Q" output="flipflop.out"/>
-                          <direct name="direct3" input="flipflop.clk" output="ff.clk"/>
-                        </interconnect>
-                      </mode>
-                      <mode name="nonvolatile">
-                        <pb_type name="nonvolatile_ff" blif_model=".subckt nonvolatile_ff" num_pb="1">
-                          <input name="nonvolatile_ff^rst" num_pins="1"/>
-                          <input name="nonvolatile_ff^d" num_pins="1"/>
-                          <input name="nonvolatile_ff^read_mtj" num_pins="1"/>
-                          <input name="nonvolatile_ff^write_mtj" num_pins="1"/>
-                          <clock name="nonvolatile_ff^clk" num_pins="1"/>
-                          <output name="nonvolatile_ff^q" num_pins="1"/>
-                          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^d" clock="nonvolatile_ff^clk"/>
-                          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^read_mtj" clock="nonvolatile_ff^clk"/>
-                          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^write_mtj" clock="nonvolatile_ff^clk"/>
-                          <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^rst" clock="nonvolatile_ff^clk"/>
-                          <T_clock_to_Q max="124e-12" port="nonvolatile_ff.nonvolatile_ff^q" clock="nonvolatile_ff^clk"/>
-                          <!-- <delay_constant max="0.3e-9" in_port="nonvolatile_ff^d" out_port="nonvolatile_ff^q"/> -->
-                        </pb_type>
-                        <interconnect>
-                          <direct name="clock" input="flipflop.clk" output="nonvolatile_ff.nonvolatile_ff^clk"/>
-                          <direct name="reset" input="flipflop.rst" output="nonvolatile_ff.nonvolatile_ff^rst"/>
-                          <direct name="d" input="flipflop.in" output="nonvolatile_ff.nonvolatile_ff^d"/>
-                          <direct name="read" input="flipflop.read" output="nonvolatile_ff.nonvolatile_ff^read_mtj"/>
-                          <direct name="write" input="flipflop.write" output="nonvolatile_ff.nonvolatile_ff^write_mtj"/>
-                          <direct name="q" input="nonvolatile_ff.nonvolatile_ff^q" output="flipflop.out"/>
-                        </interconnect>
-                      </mode>
+                  <pb_type name="nonvolatile_ff" blif_model=".subckt nonvolatile_ff" num_pb="1">
+                    <input name="nonvolatile_ff^d" num_pins="1"/>
+                    <clock name="nonvolatile_ff^clk" num_pins="1"/>
+                    <output name="nonvolatile_ff^q" num_pins="1"/>
+                    <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^d" clock="nonvolatile_ff^clk"/>
+                    <T_clock_to_Q max="124e-12" port="nonvolatile_ff.nonvolatile_ff^q" clock="nonvolatile_ff^clk"/>
+                    <!-- <delay_constant max="0.3e-9" in_port="nonvolatile_ff^d" out_port="nonvolatile_ff^q"/> -->
                   </pb_type>
                   <interconnect>
-                    <direct name="clock" input="arithmetic.clk" output="flipflop.clk"/>
+                    <direct name="clock" input="arithmetic.clk" output="nonvolatile_ff.nonvolatile_ff^clk"/>
                     <direct name="lut_in1" input="arithmetic.in[3:0]" output="lut4[0:0].in[3:0]"/>
                     <direct name="lut_in2" input="arithmetic.in[3:0]" output="lut4[1:1].in[3:0]"/>
                     <direct name="lut_to_add1" input="lut4[0:0].out" output="adder.a">
                       </direct>
                     <direct name="lut_to_add2" input="lut4[1:1].out" output="adder.b">
                       </direct>
-                    <direct name="add_to_ff" input="adder.sumout" output="flipflop.in">
-                      <pack_pattern name="chain" in_port="adder.sumout" out_port="flipflop.in"/>
+                    <direct name="add_to_ff" input="adder.sumout" output="nonvolatile_ff.nonvolatile_ff^d">
+                      <pack_pattern name="hchain" in_port="adder.sumout" out_port="nonvolatile_ff.nonvolatile_ff^d"/>
+                    </direct>
+                    <direct name="carry_in" input="arithmetic.cin" output="adder.cin">
+                      <pack_pattern name="hchain" in_port="arithmetic.cin" out_port="adder.cin"/>
+                    </direct>
+                    <direct name="carry_out" input="adder.cout" output="arithmetic.cout">
+                      <pack_pattern name="hchain" in_port="adder.cout" out_port="arithmetic.cout"/>
+                    </direct>
+                    <mux name="sumout" input="nonvolatile_ff.nonvolatile_ff^q adder.sumout" output="arithmetic.out">
+                      <delay_constant max="25e-12" in_port="adder.sumout" out_port="arithmetic.out"/>
+                      <delay_constant max="45e-12" in_port="nonvolatile_ff.nonvolatile_ff^q" out_port="arithmetic.out"/>
+                    </mux>
+                  </interconnect>
+                </pb_type>
+                <interconnect>
+                  <direct name="direct1" input="ble5.in[3:0]" output="arithmetic.in"/>
+                  <direct name="carry_in" input="ble5.cin" output="arithmetic.cin">
+                    <pack_pattern name="hchain" in_port="ble5.cin" out_port="arithmetic.cin"/>
+                  </direct>
+                  <direct name="carry_out" input="arithmetic.cout" output="ble5.cout">
+                    <pack_pattern name="hchain" in_port="arithmetic.cout" out_port="ble5.cout"/>
+                  </direct>
+                  <direct name="direct2" input="ble5.clk" output="arithmetic.clk"/>
+                  <direct name="direct3" input="arithmetic.out" output="ble5.out"/>
+                </interconnect>
+              </mode>
+              <mode name="arithmetic">
+                <pb_type name="arithmetic" num_pb="1">
+                  <input name="in" num_pins="4"/>
+                  <input name="cin" num_pins="1"/>
+                  <output name="out" num_pins="1"/>
+                  <output name="cout" num_pins="1"/>
+                  <clock name="clk" num_pins="1"/>
+                  <!-- Special dual-LUT mode that drives adder only -->
+                  <pb_type name="lut4" blif_model=".names" num_pb="2" class="lut">
+                    <input name="in" num_pins="4" port_class="lut_in"/>
+                    <output name="out" num_pins="1" port_class="lut_out"/>
+                    <!-- LUT timing using delay matrix -->
+                    <!-- These are the physical delay inputs on a Stratix IV LUT but because VPR cannot do LUT rebalancing,
+                             we instead take the average of these numbers to get more stable results
+                        82e-12
+                        173e-12
+                        261e-12
+                        263e-12
+                        -->
+                    <delay_matrix type="max" in_port="lut4.in" out_port="lut4.out">
+                        195e-12
+                        195e-12
+                        195e-12
+                        195e-12
+                      </delay_matrix>
+                  </pb_type>
+                  <pb_type name="adder" blif_model=".subckt adder" num_pb="1">
+                    <input name="a" num_pins="1"/>
+                    <input name="b" num_pins="1"/>
+                    <input name="cin" num_pins="1"/>
+                    <output name="cout" num_pins="1"/>
+                    <output name="sumout" num_pins="1"/>
+                    <delay_constant max="0.3e-9" in_port="adder.a" out_port="adder.sumout"/>
+                    <delay_constant max="0.3e-9" in_port="adder.b" out_port="adder.sumout"/>
+                    <delay_constant max="0.3e-9" in_port="adder.cin" out_port="adder.sumout"/>
+                    <delay_constant max="0.3e-9" in_port="adder.a" out_port="adder.cout"/>
+                    <delay_constant max="0.3e-9" in_port="adder.b" out_port="adder.cout"/>
+                    <delay_constant max="0.01e-9" in_port="adder.cin" out_port="adder.cout"/>
+                  </pb_type>
+                  <pb_type name="ff" blif_model=".latch" num_pb="1" class="flipflop">
+                    <input name="D" num_pins="1" port_class="D"/>
+                    <output name="Q" num_pins="1" port_class="Q"/>
+                    <clock name="clk" num_pins="1" port_class="clock"/>
+                    <T_setup value="66e-12" port="ff.D" clock="clk"/>
+                    <T_clock_to_Q max="124e-12" port="ff.Q" clock="clk"/>
+                  </pb_type>
+                  <interconnect>
+                    <direct name="clock" input="arithmetic.clk" output="ff.clk"/>
+                    <direct name="lut_in1" input="arithmetic.in[3:0]" output="lut4[0:0].in[3:0]"/>
+                    <direct name="lut_in2" input="arithmetic.in[3:0]" output="lut4[1:1].in[3:0]"/>
+                    <direct name="lut_to_add1" input="lut4[0:0].out" output="adder.a">
+                      </direct>
+                    <direct name="lut_to_add2" input="lut4[1:1].out" output="adder.b">
+                      </direct>
+                    <direct name="add_to_ff" input="adder.sumout" output="ff.D">
+                      <pack_pattern name="chain" in_port="adder.sumout" out_port="ff.D"/>
                     </direct>
                     <direct name="carry_in" input="arithmetic.cin" output="adder.cin">
                       <pack_pattern name="chain" in_port="arithmetic.cin" out_port="adder.cin"/>
@@ -637,13 +634,10 @@
                     <direct name="carry_out" input="adder.cout" output="arithmetic.cout">
                       <pack_pattern name="chain" in_port="adder.cout" out_port="arithmetic.cout"/>
                     </direct>
-                    <mux name="sumout" input="flipflop.out adder.sumout" output="arithmetic.out">
+                    <mux name="sumout" input="ff.Q adder.sumout" output="arithmetic.out">
                       <delay_constant max="25e-12" in_port="adder.sumout" out_port="arithmetic.out"/>
-                      <delay_constant max="45e-12" in_port="flipflop.out" out_port="arithmetic.out"/>
+                      <delay_constant max="45e-12" in_port="ff.Q" out_port="arithmetic.out"/>
                     </mux>
-                    <direct name="rst" input="arithmetic.rst" output="flipflop.rst"/>
-                    <direct name="read" input="arithmetic.read" output="flipflop.read"/>
-                    <direct name="write" input="arithmetic.write" output="flipflop.write"/>
                   </interconnect>
                 </pb_type>
                 <interconnect>
@@ -656,9 +650,6 @@
                   </direct>
                   <direct name="direct2" input="ble5.clk" output="arithmetic.clk"/>
                   <direct name="direct3" input="arithmetic.out" output="ble5.out"/>
-                  <direct name="direct4" input="ble5.rst" output="arithmetic.rst"/>
-                  <direct name="direct5" input="ble5.read" output="arithmetic.read"/>
-                  <direct name="direct6" input="ble5.write" output="arithmetic.write"/>
                 </interconnect>
               </mode>
             </pb_type>
@@ -666,17 +657,17 @@
               <direct name="direct1" input="lut5inter.in[4:0]" output="ble5[0:0].in"/>
               <direct name="direct2" input="lut5inter.in[7:3]" output="ble5[1:1].in"/>
               <direct name="direct3" input="ble5[1:0].out" output="lut5inter.out"/>
-              <complete name="rst" input ="lut5inter.rst" output="ble5[1:0].rst"/>
-              <complete name="write" input="lut5inter.write" output="ble5[1:0].write"/>
-              <complete name="read" input="lut5inter.read" output="ble5[1:0].read"/>
               <direct name="carry_in" input="lut5inter.cin" output="ble5[0:0].cin">
                 <pack_pattern name="chain" in_port="lut5inter.cin" out_port="ble5[0:0].cin"/>
+                <pack_pattern name="hchain" in_port="lut5inter.cin" out_port="ble5[0:0].cin"/>
               </direct>
               <direct name="carry_out" input="ble5[1:1].cout" output="lut5inter.cout">
                 <pack_pattern name="chain" in_port="ble5[1:1].cout" out_port="lut5inter.cout"/>
+                <pack_pattern name="hchain" in_port="ble5[1:1].cout" out_port="lut5inter.cout"/>
               </direct>
               <direct name="carry_link" input="ble5[0:0].cout" output="ble5[1:1].cin">
                 <pack_pattern name="chain" in_port="ble5[0:0].cout" out_port="ble5[1:1].cout"/>
+                <pack_pattern name="hchain" in_port="ble5[0:0].cout" out_port="ble5[1:1].cout"/>
               </direct>
               <complete name="complete1" input="lut5inter.clk" output="ble5[1:0].clk"/>
             </interconnect>
@@ -685,14 +676,13 @@
             <direct name="direct1" input="fle.in" output="lut5inter.in"/>
             <direct name="direct2" input="lut5inter.out" output="fle.out"/>
             <direct name="direct3" input="fle.clk" output="lut5inter.clk"/>
-            <direct name="rst" input ="fle.rst" output="lut5inter.rst"/>
-            <direct name="write" input="fle.write" output="lut5inter.write"/>
-            <direct name="read" input="fle.read" output="lut5inter.read"/>
             <direct name="carry_in" input="fle.cin" output="lut5inter.cin">
               <pack_pattern name="chain" in_port="fle.cin" out_port="lut5inter.cin"/>
+              <pack_pattern name="hchain" in_port="fle.cin" out_port="lut5inter.cin"/>
             </direct>
             <direct name="carry_out" input="lut5inter.cout" output="fle.cout">
               <pack_pattern name="chain" in_port="lut5inter.cout" out_port="fle.cout"/>
+              <pack_pattern name="hchain" in_port="lut5inter.cout" out_port="fle.cout"/>
             </direct>
           </interconnect>
         </mode>
@@ -700,9 +690,6 @@
         <mode name="n1_lut6">
           <pb_type name="ble6" num_pb="1">
             <input name="in" num_pins="6"/>
-            <input name="rst" num_pins="1"/>
-            <input name="read" num_pins="1"/>
-            <input name="write" num_pins="1"/>
             <output name="out" num_pins="1"/>
             <clock name="clk" num_pins="1"/>
             <pb_type name="lut6" blif_model=".names" num_pb="1" class="lut">
@@ -727,86 +714,86 @@
                   261e-12
                 </delay_matrix>
             </pb_type>
-            <!-- <pb_type name="ff" blif_model=".latch" num_pb="1" class="flipflop">
+            <pb_type name="ff" blif_model=".latch" num_pb="1" class="flipflop">
               <input name="D" num_pins="1" port_class="D"/>
               <output name="Q" num_pins="1" port_class="Q"/>
               <clock name="clk" num_pins="1" port_class="clock"/>
               <T_setup value="66e-12" port="ff.D" clock="clk"/>
               <T_clock_to_Q max="124e-12" port="ff.Q" clock="clk"/>
-            </pb_type> -->
-            <pb_type name="flipflop" num_pb="1">
-              <input name="in" num_pins="1"/>
-              <!-- signals for nonvolatile ff -->
-              <input name="rst" num_pins="1"/>
-              <input name="read" num_pins="1"/>
-              <input name="write" num_pins="1"/>
-              <output name="out" num_pins="1"/>
-              <clock name="clk" num_pins="1"/>
-                <mode name="latch">
-                  <pb_type name="ff" blif_model=".latch" num_pb="1" class="flipflop">
-                    <input name="D" num_pins="1" port_class="D"/>
-                    <output name="Q" num_pins="1" port_class="Q"/>
-                    <clock name="clk" num_pins="1" port_class="clock"/>
-                    <T_setup value="66e-12" port="ff.D" clock="clk"/>
-                    <T_clock_to_Q max="124e-12" port="ff.Q" clock="clk"/>
-                  </pb_type>
-                  <interconnect>
-                    <direct name="direct1" input="flipflop.in" output="ff.D"/>
-                    <direct name="direct2" input="ff.Q" output="flipflop.out"/>
-                    <direct name="direct3" input="flipflop.clk" output="ff.clk"/>
-                  </interconnect>
-                </mode>
-                <mode name="nonvolatile">
-                  <pb_type name="nonvolatile_ff" blif_model=".subckt nonvolatile_ff" num_pb="1">
-                    <input name="nonvolatile_ff^rst" num_pins="1"/>
-                    <input name="nonvolatile_ff^d" num_pins="1"/>
-                    <input name="nonvolatile_ff^read_mtj" num_pins="1"/>
-                    <input name="nonvolatile_ff^write_mtj" num_pins="1"/>
-                    <clock name="nonvolatile_ff^clk" num_pins="1"/>
-                    <output name="nonvolatile_ff^q" num_pins="1"/>
-                    <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^d" clock="nonvolatile_ff^clk"/>
-                    <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^read_mtj" clock="nonvolatile_ff^clk"/>
-                    <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^write_mtj" clock="nonvolatile_ff^clk"/>
-                    <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^rst" clock="nonvolatile_ff^clk"/>
-                    <T_clock_to_Q max="124e-12" port="nonvolatile_ff.nonvolatile_ff^q" clock="nonvolatile_ff^clk"/>
-                    <!-- <delay_constant max="0.3e-9" in_port="nonvolatile_ff^d" out_port="nonvolatile_ff^q"/> -->
-                  </pb_type>
-                  <interconnect>
-                    <direct name="clock" input="flipflop.clk" output="nonvolatile_ff.nonvolatile_ff^clk"/>
-                    <direct name="reset" input="flipflop.rst" output="nonvolatile_ff.nonvolatile_ff^rst"/>
-                    <direct name="d" input="flipflop.in" output="nonvolatile_ff.nonvolatile_ff^d"/>
-                    <direct name="read" input="flipflop.read" output="nonvolatile_ff.nonvolatile_ff^read_mtj"/>
-                    <direct name="write" input="flipflop.write" output="nonvolatile_ff.nonvolatile_ff^write_mtj"/>
-                    <direct name="q" input="nonvolatile_ff.nonvolatile_ff^q" output="flipflop.out"/>
-                  </interconnect>
-                </mode>
             </pb_type>
             <interconnect>
               <direct name="direct1" input="ble6.in" output="lut6[0:0].in"/>
-              <direct name="direct2" input="lut6.out" output="flipflop.in">
-                <pack_pattern name="ble6" in_port="lut6.out" out_port="flipflop.in"/>
+              <direct name="direct2" input="lut6.out" output="ff.D">
+                <pack_pattern name="ble6" in_port="lut6.out" out_port="ff.D"/>
               </direct>
-              <direct name="direct3" input="ble6.clk" output="flipflop.clk"/>
-              <mux name="mux1" input="flipflop.out lut6.out" output="ble6.out">
+              <direct name="direct3" input="ble6.clk" output="ff.clk"/>
+              <mux name="mux1" input="ff.Q lut6.out" output="ble6.out">
                 <delay_constant max="25e-12" in_port="lut6.out" out_port="ble6.out"/>
-                <delay_constant max="45e-12" in_port="flipflop.out" out_port="ble6.out"/>
+                <delay_constant max="45e-12" in_port="ff.Q" out_port="ble6.out"/>
               </mux>
-              <direct name="direct4" input="ble6.rst" output="flipflop.rst"/>
-              <direct name="direct5" input="ble6.read" output="flipflop.read"/>
-              <direct name="direct6" input="ble6.write" output="flipflop.write"/>
-
             </interconnect>
           </pb_type>
           <interconnect>
             <direct name="direct1" input="fle.in[5:0]" output="ble6.in"/>
             <direct name="direct2" input="ble6.out" output="fle.out[0:0]"/>
             <direct name="direct3" input="fle.clk" output="ble6.clk"/>
-            <direct name="direct4" input="fle.rst" output="ble6.rst"/>
-            <direct name="direct5" input="fle.read" output="ble6.read"/>
-            <direct name="direct6" input="fle.write" output="ble6.write"/>
           </interconnect>
         </mode>
         <!-- n1_lut6 -->
+        <mode name="n1_hlut6">
+          <pb_type name="hble6" num_pb="1">
+            <input name="in" num_pins="6"/>
+            <output name="out" num_pins="1"/>
+            <clock name="clk" num_pins="1"/>
+            <pb_type name="lut6" blif_model=".names" num_pb="1" class="lut">
+              <input name="in" num_pins="6" port_class="lut_in"/>
+              <output name="out" num_pins="1" port_class="lut_out"/>
+              <!-- LUT timing using delay matrix -->
+              <!-- These are the physical delay inputs on a Stratix IV LUT but because VPR cannot do LUT rebalancing,
+                       we instead take the average of these numbers to get more stable results
+                  82e-12
+                  173e-12
+                  261e-12
+                  263e-12
+                  398e-12
+                  397e-12
+                  -->
+              <delay_matrix type="max" in_port="lut6.in" out_port="lut6.out">
+                  261e-12
+                  261e-12
+                  261e-12
+                  261e-12
+                  261e-12
+                  261e-12
+                </delay_matrix>
+            </pb_type>
+            <pb_type name="nonvolatile_ff" blif_model=".subckt nonvolatile_ff" num_pb="1">
+              <input name="nonvolatile_ff^d" num_pins="1"/>
+              <clock name="nonvolatile_ff^clk" num_pins="1"/>
+              <output name="nonvolatile_ff^q" num_pins="1"/>
+              <T_setup value="66e-12" port="nonvolatile_ff.nonvolatile_ff^d" clock="nonvolatile_ff^clk"/>
+              <T_clock_to_Q max="124e-12" port="nonvolatile_ff.nonvolatile_ff^q" clock="nonvolatile_ff^clk"/>
+              <!-- <delay_constant max="0.3e-9" in_port="nonvolatile_ff^d" out_port="nonvolatile_ff^q"/> -->
+            </pb_type>
+            <interconnect>
+              <direct name="direct1" input="hble6.in" output="lut6[0:0].in"/>
+              <direct name="direct2" input="lut6.out" output="nonvolatile_ff.nonvolatile_ff^d">
+                <pack_pattern name="hble6" in_port="lut6.out" out_port="nonvolatile_ff.nonvolatile_ff^d"/>
+              </direct>
+              <direct name="direct3" input="hble6.clk" output="nonvolatile_ff.nonvolatile_ff^clk"/>
+              <mux name="mux1" input="nonvolatile_ff.nonvolatile_ff^q lut6.out" output="hble6.out">
+                <delay_constant max="25e-12" in_port="lut6.out" out_port="hble6.out"/>
+                <delay_constant max="45e-12" in_port="nonvolatile_ff.nonvolatile_ff^q" out_port="hble6.out"/>
+              </mux>
+            </interconnect>
+          </pb_type>
+          <interconnect>
+            <direct name="direct1" input="fle.in[5:0]" output="hble6.in"/>
+            <direct name="direct2" input="hble6.out" output="fle.out[0:0]"/>
+            <direct name="direct3" input="fle.clk" output="hble6.clk"/>
+          </interconnect>
+        </mode>
+        <!--n1_hlut6-->
       </pb_type>
       <interconnect>
         <!-- We use a 50% depop crossbar built using small full xbars to get sets of logically equivalent pins at inputs of CLB 
@@ -877,12 +864,6 @@
         </complete>
         <complete name="clks" input="clb.clk" output="fle[9:0].clk">
           </complete>
-        <complete name="rst" input="clb.rst" output="fle[9:0].rst">
-          </complete>
-        <complete name="read" input="clb.read" output="fle[9:0].read">
-          </complete>
-        <complete name="write" input="clb.write" output="fle[9:0].write">
-          </complete>
         <!-- This way of specifying direct connection to clb outputs is important because this architecture uses automatic spreading of opins.  
                  By grouping to output pins in this fashion, if a logic block is completely filled by 6-LUTs, 
                  then the outputs those 6-LUTs take get evenly distributed across all four sides of the CLB instead of clumped on two sides (which is what happens with a more
@@ -895,11 +876,14 @@
           <!-- Put all inter-block carry chain delay on this one edge -->
           <delay_constant max="0.16e-9" in_port="clb.cin" out_port="fle[0:0].cin"/>
           <pack_pattern name="chain" in_port="clb.cin" out_port="fle[0:0].cin"/>
+          <pack_pattern name="hchain" in_port="clb.cin" out_port="fle[0:0].cin"/>
         </direct>
         <direct name="carry_out" input="fle[9:9].cout" output="clb.cout">
           <pack_pattern name="chain" in_port="fle[9:9].cout" out_port="clb.cout"/>
+          <pack_pattern name="hchain" in_port="fle[9:9].cout" out_port="clb.cout"/>
         </direct>
         <direct name="carry_link" input="fle[8:0].cout" output="fle[9:1].cin">
+          <pack_pattern name="hchain" in_port="fle[8:0].cout" out_port="fle[9:1].cin"/>
           <pack_pattern name="chain" in_port="fle[8:0].cout" out_port="fle[9:1].cin"/>
         </direct>
       </interconnect>
@@ -939,7 +923,7 @@
           <output name="out" num_pins="36"/>
           <!-- Model 9x9 delay and 18x18 delay as the same.  9x9 could be faster, but in Stratix IV
 	          isn't, presumably because the multiplier layout is really optimized for 18x18.
-		 -->
+		-->
           <mode name="two_mult_9x9">
             <pb_type name="mult_9x9_slice" num_pb="2">
               <input name="A_cfg" num_pins="9"/>

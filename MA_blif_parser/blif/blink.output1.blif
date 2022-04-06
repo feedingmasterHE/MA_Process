@@ -1,5 +1,5 @@
 .model blink
-.inputs blink^clk blink^i_reset blink^read_mtj blink^write_mtj
+.inputs blink^clk blink^i_reset 
 .outputs blink^o_led
 
 .subckt adder a[0]=blink^r_counter~0_FF b[0]=vcc cin[0]=blink^ADD~2-0[0] cout[0]=blink^ADD~2-1[0] sumout[0]=blink^ADD~2-1[1]
@@ -8,11 +8,11 @@
 .subckt adder a[0]=blink^r_counter~3_FF b[0]=gnd cin[0]=blink^ADD~2-3[0] cout[0]=blink^ADD~2-4[0] sumout[0]=blink^ADD~2-4[1]
 .subckt adder a[0]=blink^r_counter~4_FF b[0]=gnd cin[0]=blink^ADD~2-4[0] cout[0]=blink^ADD~2-5[0] sumout[0]=blink^ADD~2-5[1]
 .subckt adder a[0]=vcc b[0]=gnd cin[0]=unconn cout[0]=blink^ADD~2-0[0] sumout[0]=blink^ADD~2-0~dummy_output~0~1
-.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^rst=blink^i_reset nonvolatile_ff^d=n19 nonvolatile_ff^read_mtj=blink^read_mtj nonvolatile_ff^write_mtj=blink^write_mtj nonvolatile_ff^q=blink^r_counter~0_FF
-.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^rst=blink^i_reset nonvolatile_ff^d=n24 nonvolatile_ff^read_mtj=blink^read_mtj nonvolatile_ff^write_mtj=blink^write_mtj nonvolatile_ff^q=blink^r_counter~4_FF
-.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^rst=blink^i_reset nonvolatile_ff^d=n29 nonvolatile_ff^read_mtj=blink^read_mtj nonvolatile_ff^write_mtj=blink^write_mtj nonvolatile_ff^q=blink^r_counter~3_FF
-.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^rst=blink^i_reset nonvolatile_ff^d=n34 nonvolatile_ff^read_mtj=blink^read_mtj nonvolatile_ff^write_mtj=blink^write_mtj nonvolatile_ff^q=blink^r_counter~2_FF
-.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^rst=blink^i_reset nonvolatile_ff^d=n39 nonvolatile_ff^read_mtj=blink^read_mtj nonvolatile_ff^write_mtj=blink^write_mtj nonvolatile_ff^q=blink^r_counter~1_FF
+.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^d=n19 nonvolatile_ff^q=blink^r_counter~0_FF
+.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^d=n24 nonvolatile_ff^q=blink^r_counter~4_FF
+.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^d=n29 nonvolatile_ff^q=blink^r_counter~3_FF
+.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^d=n34 nonvolatile_ff^q=blink^r_counter~2_FF
+.subckt nonvolatile_ff nonvolatile_ff^clk=blink^clk nonvolatile_ff^d=n39 nonvolatile_ff^q=blink^r_counter~1_FF
 .names blink^i_reset blink^ADD~2-1[1] n19
 01 1
 
@@ -50,7 +50,7 @@
 
 
 .model nonvolatile_ff
-.inputs nonvolatile_ff^clk nonvolatile_ff^rst nonvolatile_ff^d nonvolatile_ff^read_mtj nonvolatile_ff^write_mtj
+.inputs nonvolatile_ff^clk nonvolatile_ff^d 
 .outputs nonvolatile_ff^q
 .blackbox
 .end
