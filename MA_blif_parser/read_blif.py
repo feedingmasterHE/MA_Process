@@ -11,7 +11,7 @@ import blifparser_new.blifparser as blifparser
 import blifparser_new.keywords as keywords
 
 
-def replace_latch_nonvolatile(source, nonvolatile):
+def replace_latch_nonvolatile_sim(source, nonvolatile):
 
     add_inputs(source)
     for latch in source.latches:
@@ -52,6 +52,12 @@ def replace_latch_nonvolatile(source, nonvolatile):
     source.latches.clear()
     add_submodel(source,nonvolatile)
     
+
+
+def replace_latch_nonvolatile_pr(source,nonvolatile):
+    None
+
+
 def add_submodel(source, added_source):
     new_submodel = keywords.subfiles.Submodel()
     # Add model attribute into the submodel
@@ -90,8 +96,8 @@ if __name__ == "__main__":
         
     
 
-    replace_latch_nonvolatile(blif1,blif2)
-    replace_latch_nonvolatile(blif4,blif2)
+    replace_latch_nonvolatile_sim(blif1,blif2)
+    replace_latch_nonvolatile_sim(blif4,blif2)
     
     print(blif1)
     print(blif1.inputs.inputs)
